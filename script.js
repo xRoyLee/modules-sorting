@@ -24,7 +24,7 @@ if moduleNumber = 1,
 
 Number.prototype.pad = function (size) {
     var s = String(this);
-    while (s.length < (size || 3)) {
+    while (s.length < (size || 4)) {
         s = "0" + s;
     }
     return s;
@@ -42,14 +42,17 @@ Initialises Modules data from ET001 to ET258
 for (var i = 0; i < 258; ++i) {
 
     var spModules = {
-        moduleCode: "ET" + (i + 1).pad(),
-        indexNumber: i + 1,
-        rowNumber: 1,
-        rowPosition: 1,
-        rackNumber: 1,
-        dummyNumber: 0
-    }
-
+            moduleCode: "ET" + (i + 1).pad(),
+            indexNumber: i + 1,
+            rowNumber: 1,
+            rowPosition: 1,
+            rackNumber: 1,
+            dummyNumber: 0
+        }
+        /*
+        ============================
+        Increment spModules.rowPosition from 1-20 loop 
+        */
     for (spModules.rowPosition = i + 1; spModules.rowPosition > 20; ++spModules.dummyNumber) {
         ++spModules.rowPosition;
         ++spModules.rowNumber;
@@ -59,14 +62,30 @@ for (var i = 0; i < 258; ++i) {
         } else {
             spModules.rowPosition = spModules.indexNumber - ((spModules.rowNumber - 1) * 20)
         }
-
-        if (spModules.rowNumber > 5) {
-            a = spModules.rowNumber / (5 * spModules.rackNumber);
-            ++spModules.rackNumber
-            spModules.rowNumber - 4;
-        }
-
     }
+    /*
+    ============================
+    End increment spModules.rowPosition from 1-20 loop 
+    */
+
+    /*
+    ============================
+    Increment spModules.rackNumber every 5 rowNumber loop 
+    */
+    
+    if (spModules.rowNumber > 5) {
+        ++spModules.rackNumber;
+        spModules.rowNumber - 4;
+    }
+    
+    if (spModules.rowNumber > 10) {
+        ++spModules.rackNumber;
+        spModules.rowNumber - 4;
+    }
+    /*
+    ============================
+    End hardcoding Increment spModules.rackNumber every 5 rowNumber loop 
+    */
 
     console.log(spModules);
 }
